@@ -1,0 +1,27 @@
+{
+    "name": "wizzaro-columns",
+    "description": "This is plugin for create columns for post type content",
+    "type": "wordpress-plugin",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "wizzaro",
+        "wordpress",
+        "plugin",
+        "columns",
+        "columns-plugin"
+    ],
+    "homepage": "https://github.com/Wizzaro/wordpress-columns",
+    "authors": [
+        {
+            "name": "Przemysław Dziadek",
+            "email": "przemyslaw.dziadek@gmail.com",
+            "homepage": "http://www.wizzaro.com",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Wizzaro\\Columns\\v1\\": ["src/"]
+        }
+    }
+}
