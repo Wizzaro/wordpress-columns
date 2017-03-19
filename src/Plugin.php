@@ -12,12 +12,14 @@ class Plugin {
     protected function __construct() {
         $this->config = Config::get_instance();
 
-        add_shortcode( $this->config->get( 'shordcode', 'tag' ), array( $this, 'render_shordcode' ) );
+        add_shortcode( $this->config->get( 'shortcode', 'tag' ), array( $this, 'render_shortcode' ), 10, 2 );
 
 		if ( is_admin() ){
 			add_action( 'admin_head', array( $this, 'action_admin_head' ) );
 			add_action( 'admin_enqueue_scripts', array( $this , 'action_admin_enqueue_scripts' ) );
-		}
+		} else {
+            wp_register_style( 'wizzaro-columns-style', $this->config->get_plugin_dir_url() . 'assets/css/wizzaro-columns.css', array(), '1.0' );
+        }
     }
 
     protected function __clone() {}
@@ -31,8 +33,25 @@ class Plugin {
     }
 
     //Function for front
-    public function render_shordcode($atts , $content = null) {
-		return '';
+    public function render_shortcode( $atts , $content = null ) {
+        wp_enqueue_style( 'wizzaro-columns-style' );
+        
+        $grid = $this->config->get_group( 'grid' );
+        $class = '';
+
+        foreach ( $grid['screens'] as $key => $settings) {
+            if ( array_key_exists( $key, $atts ) && array_key_exists( $atts[$key], $grid['columns'] ) ) {
+                $class .= ' ' . $settings['class_prefix'] . esc_attr( $atts[$key] );
+            }
+        }
+
+        $shortcode_view = sprintf( $grid['column_html'], trim( $class ), \do_shortcode( $content ) );
+
+        if ( array_key_exists( 'last_column_in_row', $atts ) && 'true' === $atts['last_column_in_row'] ) {
+            $shortcode_view .= $grid['clearfix_html'];
+        }
+
+		return $shortcode_view;
 	}
 
     //Functions for admin
@@ -47,7 +66,7 @@ class Plugin {
             add_filter( 'mce_external_languages', array( $this ,'filter_mce_external_languages' ) );
 			add_filter( 'mce_buttons', array($this, 'filter_mce_buttons' ) );
             wp_localize_script('editor', 'wpWizzaroColumns', array(
-                'shordcode' => $this->config->get_group( 'shordcode' ),
+                'shortcode' => $this->config->get_group( 'shortcode' ),
                 'grid' => $this->config->get_group( 'grid' )
             ));
 		}

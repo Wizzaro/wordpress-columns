@@ -1,6 +1,6 @@
 (function() {
     tinymce.PluginManager.add( 'wizzaro_columns', function( editor, url ) {
-        var shordcode_tag = wpWizzaroColumns.shordcode.tag;
+        var shortcode_tag = wpWizzaroColumns.shortcode.tag;
         var screens = wpWizzaroColumns.grid.screens;
         var columns = wpWizzaroColumns.grid.columns;
 
@@ -44,7 +44,7 @@
                 title: editor.getLang('wizzaro_columns.add_button_title'),
                 body: column_add_popup_body,
                 onsubmit: function( e ) {
-                    var content = '[' + shordcode_tag;
+                    var content = '[' + shortcode_tag;
 
                     jQuery.each( screens , function( key, settings ) {
                         if ( jQuery.type( e.data[key] ) === "string" && jQuery.type( columns[e.data[key]] ) === "string" ) {
@@ -56,7 +56,7 @@
                         content += ' last_column_in_row="true"';
                     }
 
-                    content += '][/' + shordcode_tag + ']';
+                    content += '][/' + shortcode_tag + ']';
 
                     editor.insertContent( content );
                 }

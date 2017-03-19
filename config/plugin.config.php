@@ -6,24 +6,25 @@ return array(
         'main_file' => realpath( __DIR__ . '/../' . 'wizzaro-columns.php' )
     ),
     'languages' => array(
-        'domain' => 'wizzaro-columns-v1'
+        'domain' => 'wizzaro-columns'
     ),
-    'shordcode' => array(
+    'shortcode' => array(
         'tag' => 'wizzaro_column'
     ),
     'grid' => array(
+        'column_html' => '<div class="%s">%s</div>',
         'clearfix_html' => '<div class="wizzaro-clearfix"></div>',
         'screens' => array(
             'desktop' => array(
-                'label' => __( 'Desktop width', 'wizzaro-columns-v1' ),
+                'label' => __( 'Desktop width', 'wizzaro-columns' ),
                 'class_prefix' => 'wizzaro-col-',
             ),
             'tablet' => array(
-                'label' => __( 'Tablet width', 'wizzaro-columns-v1' ),
+                'label' => __( 'Tablet width', 'wizzaro-columns' ),
                 'class_prefix' => 'wizzaro-col-tab-',
             ),
             'mobile_phone' => array(
-                'label' => __( 'Mobile phone width', 'wizzaro-columns-v1' ),
+                'label' => __( 'Mobile phone width', 'wizzaro-columns' ),
                 'class_prefix' => 'wizzaro-col-mp-',
             ),
         ),

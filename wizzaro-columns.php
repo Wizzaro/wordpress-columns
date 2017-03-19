@@ -6,7 +6,7 @@
    Author: Przemysław Dziadek
    Author URI: http://www.wizzaro.com
    License: GPL-2.0+
-   Text Domain: wizzaro-columns-v1
+   Text Domain: wizzaro-columns
    Domain Path: /languages
    */
 
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 
-load_plugin_textdomain( 'wizzaro-columns-v1', false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
+load_plugin_textdomain( 'wizzaro-columns', false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
 
 require_once 'vendor/autoload.php';
 Wizzaro\Columns\v1\Plugin::create();

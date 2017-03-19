@@ -4,6 +4,16 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
         //----------------------------------------
         compass: {
+            dist: {
+                options: {
+                    config: 'assets-dev/sass/config.rb',
+                    specify: [
+                        'assets-dev/sass/wizzaro-columns.scss',
+                    ],
+                    outputStyle: 'compressed',
+                    environment: 'production'
+                }
+            },
             dist_admin: {
                 options: {
                     config: 'assets-dev/admin/sass/config.rb',
@@ -36,6 +46,12 @@ module.exports = function (grunt) {
         },
         //----------------------------------------
         watch: {
+            dist_style: {
+                files: [
+                    'assets-dev/sass/*.scss'
+                ],
+                tasks: ['compass:dist']
+            },
             dist_admin_style: {
                 files: [
                     'assets-dev/admin/sass/*.scss'

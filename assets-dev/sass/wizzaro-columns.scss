@@ -1,0 +1,69 @@
+$columns: (
+    5: 5%,
+    10: 10%,
+    15: 15%,
+    20: 20%,
+    25: 25%,
+    30: 30%,
+    33: percentage(1/3),
+    35: 35%,
+    40: 40%,
+    45: 45%,
+    50: 50%,
+    55: 55%,
+    60: 60%,
+    65: 65%,
+    66: (percentage(1/3) * 2),
+    70: 70%,
+    75: 75%,
+    80: 80%,
+    85: 85%,
+    90: 90%,
+    95: 95%,
+    100: 100%
+);
+
+.wizzaro-clearfix {
+    &:before,
+    &:after {
+        content: " ";
+        display: table;
+        width: 100%;
+    }
+
+    &:after {
+        clear: both;
+    }
+}
+
+[class^="wizzaro-col-"] {
+    float: left;
+}
+
+.wizzaro-col- {
+    @each $key, $percent in $columns {
+        &#{$key} {
+          width: $percent;
+        }
+    }
+}
+
+@media (max-width: 1200px) {
+    .wizzaro-col-tab- {
+        @each $key, $percent in $columns {
+            &#{$key} {
+              width: $percent;
+            }
+        }
+    }
+}
+
+@media (max-width: 560px) {
+    .wizzaro-col-mp- {
+        @each $key, $percent in $columns {
+            &#{$key} {
+              width: $percent;
+            }
+        }
+    }
+}
