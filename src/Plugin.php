@@ -2,7 +2,7 @@
 namespace Wizzaro\Columns\v1;
 
 use Wizzaro\Columns\v1\Config\Config;
-use Wizzaro\Columns\v1\Helper\Arrays;
+use _WP_Editors;
 
 class Plugin {
 
@@ -10,19 +10,7 @@ class Plugin {
     private $config;
 
     protected function __construct() {
-        $config = include realpath(__DIR__ . '/../config/plugin.config.php');
-
-        $local_config_file = WP_CONTENT_DIR . DIRECTORY_SEPARATOR . 'wizzaro' . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . 'columns' . DIRECTORY_SEPARATOR . 'plugin.config.local.php';
-
-        if ( file_exists( $local_config_file ) ) {
-            $local_config = include $local_config_file;
-
-            if ( is_array( $local_config ) ) {
-                $config = Arrays::get_instance()->deep_merge( $config, $local_config );
-            }
-        }
-
-        $this->config = new Config( $config );
+        $this->config = Config::get_instance();
 
         add_shortcode( $this->config->get( 'shordcode', 'tag' ), array( $this, 'render_shordcode' ) );
 
@@ -43,13 +31,12 @@ class Plugin {
     }
 
     //Function for front
-    public function render_shordcode($atts , $content = null){
+    public function render_shordcode($atts , $content = null) {
 		return '';
 	}
 
     //Functions for admin
     public function action_admin_head() {
-		// check user permissions
 		if ( !current_user_can( 'edit_posts' ) && !current_user_can( 'edit_pages' ) ) {
 			return;
 		}
@@ -57,21 +44,31 @@ class Plugin {
 		// check if WYSIWYG is enabled
 		if ( true == get_user_option( 'rich_editing' ) ) {
 			add_filter( 'mce_external_plugins', array( $this ,'filter_mce_external_plugins' ) );
+            add_filter( 'mce_external_languages', array( $this ,'filter_mce_external_languages' ) );
 			add_filter( 'mce_buttons', array($this, 'filter_mce_buttons' ) );
+            wp_localize_script('editor', 'wpWizzaroColumns', array(
+                'shordcode' => $this->config->get_group( 'shordcode' ),
+                'grid' => $this->config->get_group( 'grid' )
+            ));
 		}
 	}
 
 	public function filter_mce_external_plugins( $plugin_array ) {
-		//$plugin_array[$this->config->get( 'shordcode', 'tag' )] = plugins_url( 'assets/js/mce-button.min.js' , __FILE__ );
+		$plugin_array['wizzaro_columns'] = $this->config->get_plugin_dir_url() . 'assets/admin/js/wizzaro-columns.min.js';
 		return $plugin_array;
 	}
 
+    public function filter_mce_external_languages( $locales ) {
+        $locales['wizzaro_columns'] = $this->config->get_plugin_dir_path() . 'assets/admin/js/tinymce/langs/wizzaro_columns.php';
+        return $locales;
+    }
+
 	public function filter_mce_buttons( $buttons ) {
-		//array_push( $buttons, $this->config->get( 'shordcode', 'tag' ) );
+		array_push( $buttons, 'wizzaro_column_add' );
 		return $buttons;
 	}
 
 	public function action_admin_enqueue_scripts(){
-		 //wp_enqueue_style('bs3_panel_shortcode', plugins_url( 'assets/css/mce-button.css' , __FILE__ ) );
+		 wp_enqueue_style( 'wizzaro-columns-admin-style', $this->config->get_plugin_dir_url() . 'assets/admin/css/wizzaro-columns.css' );
 	}
 }

@@ -4,11 +4,11 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
         //----------------------------------------
         compass: {
-            dist_admin_metabox: {
+            dist_admin: {
                 options: {
-                    config: 'assets-dev/sass-admin/config.rb',
+                    config: 'assets-dev/admin/sass/config.rb',
                     specify: [
-                        'assets-dev/sass-admin/wizzaro-gallery.scss',
+                        'assets-dev/admin/sass/wizzaro-columns.scss',
                     ],
                     outputStyle: 'compressed',
                     environment: 'production'
@@ -17,52 +17,36 @@ module.exports = function (grunt) {
         },
         //----------------------------------------
         concat: {
-            dist_admin_metabox: {
+            dist_admin_mce_button: {
                 src: [
-                    'assets-dev/js-admin/*.js',
-                    'assets-dev/js-admin/*/*.js',
-                    'assets-dev/js-admin/*/*/*.js',
-                    'assets-dev/js-admin/*/*/*/*.js',
-                    'assets-dev/js-admin/*/*/*/*/*.js',
+                    'assets-dev/admin/js/wizzaro-columns.js'
                 ],
-                dest: 'assets/js/admin/wizzaro-gallery.js'
+                dest: 'assets/admin/js/wizzaro-columns.min.js'
             },
         },
         //----------------------------------------
         uglify: {
-            gallery: {
+            dist_admin_mce_button: {
                 files: {
-                    'assets/js/admin/wizzaro-gallery.js': [
-                        'assets-dev/js-admin/*.js',
-                        'assets-dev/js-admin/*/*.js',
-                        'assets-dev/js-admin/*/*/*.js',
-                        'assets-dev/js-admin/*/*/*/*.js',
-                        'assets-dev/js-admin/*/*/*/*/*.js',
+                    'assets/admin/js/wizzaro-columns.min.js': [
+                        'assets-dev/admin/js/wizzaro-columns.js'
                     ],
                 },
             }
         },
         //----------------------------------------
         watch: {
-            js_dist_admin_metabox: {
+            dist_admin_style: {
                 files: [
-                    'assets-dev/js-admin/*.js',
-                    'assets-dev/js-admin/*/*.js',
-                    'assets-dev/js-admin/*/*/*.js',
-                    'assets-dev/js-admin/*/*/*/*.js',
-                    'assets-dev/js-admin/*/*/*/*/*.js',
+                    'assets-dev/admin/sass/*.scss'
                 ],
-                tasks: ['concat:dist_admin_metabox']
+                tasks: ['compass:dist_admin']
             },
-            css_dist_admin_metabox: {
+            dist_admin_mce_button: {
                 files: [
-                    'assets-dev/sass-admin/*.scss',
-                    'assets-dev/sass-admin/*/*.scss',
-                    'assets-dev/sass-admin/*/*/*.scss',
-                    'assets-dev/sass-admin/*/*/*/*.scss',
-                    'assets-dev/sass-admin/*/*/*/*/*.scss',
+                    'assets-dev/admin/js/wizzaro-columns.js'
                 ],
-                tasks: ['compass:dist_admin_metabox']
+                tasks: ['concat:dist_admin_mce_button']
             }
         }
     });
@@ -71,8 +55,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-compass');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-copy');
 
-    grunt.registerTask('default', ['compass', 'uglify']);
+    grunt.registerTask('default', ['compass','uglify']);
     grunt.registerTask('liveupdate', ['watch']);
 };
