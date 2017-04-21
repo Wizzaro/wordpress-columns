@@ -29,6 +29,7 @@ return array(
             ),
         ),
         'columns' => array(
+            'wizzaro_column_empty_size'  => '---------',
             '5'  => '5%',
             '10' => '10%',
             '15' => '15%',

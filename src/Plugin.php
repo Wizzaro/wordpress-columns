@@ -35,7 +35,7 @@ class Plugin {
     //Function for front
     public function render_shortcode( $atts , $content = null ) {
         wp_enqueue_style( 'wizzaro-columns-style' );
-        
+
         $grid = $this->config->get_group( 'grid' );
         $class = '';
 

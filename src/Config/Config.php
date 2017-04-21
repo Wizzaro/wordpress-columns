@@ -15,8 +15,8 @@ class Config {
         if ( file_exists( $local_config_file ) ) {
             $local_config = include $local_config_file;
 
-            if ( is_array( $local_config ) ) {
-                $config = Arrays::get_instance()->deep_merge( $config, $local_config );
+            if ( is_array( $local_config ) && isset( $local_config['grid'] ) && is_array( $local_config['grid'] ) ) {
+                $config['grid'] = $local_config['grid'];
             }
         }
 
