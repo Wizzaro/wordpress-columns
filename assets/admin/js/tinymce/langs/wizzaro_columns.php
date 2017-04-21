@@ -14,7 +14,8 @@ function wizzaro_columns_add_tinymce_plugin_translation() {
 
      $i18n = array(
          'add_button_title' => __( 'Add column', $languages_domain ),
-         'last_column_in_row' => __( 'Last column in row?', $languages_domain )
+         'last_column_in_row' => __( 'Last column in row?', $languages_domain ),
+         'add_row_button_title' => __( 'Add row', $languages_domain ),
      );
 
      $editor_locale = _WP_Editors::$mce_locale;

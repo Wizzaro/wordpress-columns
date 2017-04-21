@@ -9,10 +9,12 @@ return array(
         'domain' => 'wizzaro-columns'
     ),
     'shortcode' => array(
-        'tag' => 'wizzaro_column'
+        'tag' => 'wizzaro_column',
+        'row_tag' => 'wizzaro_row',
     ),
     'grid' => array(
         'column_html' => '<div class="%s">%s</div>',
+        'row_html' => '<div class="row">%s</div>',
         'clearfix_html' => '<div class="wizzaro-clearfix"></div>',
         'screens' => array(
             'desktop' => array(

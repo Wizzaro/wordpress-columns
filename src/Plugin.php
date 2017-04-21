@@ -13,6 +13,7 @@ class Plugin {
         $this->config = Config::get_instance();
 
         add_shortcode( $this->config->get( 'shortcode', 'tag' ), array( $this, 'render_shortcode' ), 10, 2 );
+        add_shortcode( $this->config->get( 'shortcode', 'row_tag' ), array( $this, 'render_row_shortcode' ), 10, 2 );
 
 		if ( is_admin() ){
 			add_action( 'admin_head', array( $this, 'action_admin_head' ) );
@@ -54,6 +55,11 @@ class Plugin {
 		return $shortcode_view;
 	}
 
+    public function render_row_shortcode( $atts, $content = null ) {
+        $grid = $this->config->get_group( 'grid' );
+        return sprintf( $grid['row_html'], \do_shortcode( $content ) );
+    }
+
     //Functions for admin
     public function action_admin_head() {
 		if ( !current_user_can( 'edit_posts' ) && !current_user_can( 'edit_pages' ) ) {
@@ -83,6 +89,7 @@ class Plugin {
     }
 
 	public function filter_mce_buttons( $buttons ) {
+        array_push( $buttons, 'wizzaro_row_add' );
 		array_push( $buttons, 'wizzaro_column_add' );
 		return $buttons;
 	}
