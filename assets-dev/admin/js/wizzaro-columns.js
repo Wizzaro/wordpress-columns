@@ -7,11 +7,20 @@
         var column_add_popup_body = [];
         var columns_values = [];
 
-        jQuery.each( columns , function( value, text ) {
+        if ( 'wizzaro_column_empty_size' in columns ) {
             columns_values.push({
-                text: text,
-                value: value
+                text: columns['wizzaro_column_empty_size'],
+                value: 'wizzaro_column_empty_size'
             });
+        }
+
+        jQuery.each( columns , function( value, text ) {
+            if ( value !== 'wizzaro_column_empty_size' ) {
+                columns_values.push({
+                    text: text,
+                    value: value
+                });
+            }
         });
 
         jQuery.each( screens , function( key, settings ) {
@@ -47,7 +56,7 @@
                     var content = '[' + shortcode_tag;
 
                     jQuery.each( screens , function( key, settings ) {
-                        if ( jQuery.type( e.data[key] ) === "string" && jQuery.type( columns[e.data[key]] ) === "string" ) {
+                        if ( jQuery.type( e.data[key] ) === "string" && e.data[key] !== 'wizzaro_column_empty_size' && jQuery.type( columns[e.data[key]] ) === "string" ) {
                             content += ' ' + key + '="' + e.data[key] + '"';
                         }
                     });
